@@ -2,19 +2,17 @@
 #include <iostream>
 #include <iomanip>
 #include <limits>
-#include <cstdlib>
-#include <string>
 
 /* Console helpers */
 
-void ConsoleApp::clearConsole() const
+void ConsoleApp::ClearConsole() const
 {
 	std::cout << "\x1b[2J\x1b[H" << std::flush;
 	// Clear entire screen, then move cursor to row 1, column 1
 	// alternative options, ("\033[H\033[J");, system("cls")
 }
 
-void ConsoleApp::pauseForKey() const
+void ConsoleApp::PauseForKey() const
 {
 	std::cout << "Press ENTER key to continue . . ."; //Replacing original press any key to continue with a universal method.
 	std::cin.get();
@@ -23,7 +21,7 @@ void ConsoleApp::pauseForKey() const
 
 /* Error handling for input validation */
 
-double ConsoleApp::readPositiveDouble(const std::string& t_prompt) const  //double input handling
+double ConsoleApp::ReadPositiveDouble(const std::string& t_prompt) const  //double input handling
 {
 	double value{};
 	while (true)
@@ -40,7 +38,7 @@ double ConsoleApp::readPositiveDouble(const std::string& t_prompt) const  //doub
 	}
 }
 
-int ConsoleApp::readPositiveInt(const std::string& t_prompt) const { //int input handling
+int ConsoleApp::ReadPositiveInt(const std::string& t_prompt) const { //int input handling
 	int value{};
 	while (true) {
 		std::cout << t_prompt;
@@ -57,7 +55,7 @@ int ConsoleApp::readPositiveInt(const std::string& t_prompt) const { //int input
 
 	/* UI */
 
-void ConsoleApp::displayInputForm() const //default form without input added shown first
+void ConsoleApp::DisplayInputForm() const //default form without input added shown first
 {
 	std::cout << std::setfill('*') << std::setw(35) << '\n';
 	std::cout << std::setfill('*') << std::setw(10) << "" << std::setfill(' ') << " Data Input " << std::setfill('*') << std::setw(12) << '\n';
@@ -67,9 +65,9 @@ void ConsoleApp::displayInputForm() const //default form without input added sho
 	std::cout << "Number of years: \n";
 }
 
-void ConsoleApp::displayConfirmation() const //showing the form once input is added.
+void ConsoleApp::DisplayConfirmation() const //showing the form once input is added.
 {
-	clearConsole();
+	ClearConsole();
 	std::cout << std::fixed << std::setprecision(2); // fixed-point to prevent larger numbers from using scientific notation '1000000'
 	std::cout << std::setfill('*') << std::setw(35) << '\n';
 	std::cout << std::setfill('*') << std::setw(10) << "" << std::setfill(' ') << " Data Input " << std::setw(12) << std::setfill('*') << '\n';
@@ -79,7 +77,7 @@ void ConsoleApp::displayConfirmation() const //showing the form once input is ad
 	std::cout << "Number of years: " << m_account.GetNumYears() << '\n';
 }
 
-void ConsoleApp::displayReport(const std::vector<YearRow>& t_rows, const std::string& t_title) const
+void ConsoleApp::DisplayReport(const std::vector<YearRow>& t_rows, const std::string& t_title) const
 {
 	//62
 	std::cout << '\n' << t_title << '\n'; //display the title, with or without monthly deposits
@@ -87,9 +85,8 @@ void ConsoleApp::displayReport(const std::vector<YearRow>& t_rows, const std::st
 	std::cout << "  Year" << std::setfill(' ') << std::setw(8) << "" << std::setfill(' ') << "Year End Balance" << std::setw(5) << "" << std::setfill(' ') << "Year End Earned Interest    \n";
 	std::cout << std::setw(62) << std::setfill('-') << '\n';
 	std::cout << std::fixed << std::setprecision(2); //setting the decimal to 2 places.
-	//5 spaces, then year, 15 spaces, $ YearEndBalance, 20 spaces, $ year end interest
 	for (std::size_t i = 0; i < t_rows.size(); ++i) // loop going over each row in YearRow
-	{ //looks like a range based loop would be better but not really familiar with it yet.
+	{
 		const YearRow& row = t_rows[i];
 		std::cout << std::setfill(' ') << std::setw(5) << "" << std::setfill(' ') << row.year << std::setw(16) << "$" << row.balance << std::setw(20) << "$" << row.interest << '\n';
 	}
@@ -97,7 +94,7 @@ void ConsoleApp::displayReport(const std::vector<YearRow>& t_rows, const std::st
 
 }
 
-bool ConsoleApp::askRunAgain() const
+bool ConsoleApp::AskRunAgain() const
 {
 	char choice{}; //for y or n, yes or no.
 	while (true) //input handling for Y, y, N, n. Requesting correct input.
@@ -127,28 +124,28 @@ void ConsoleApp::run()
 {
 	while (true)
 	{
-		clearConsole(); // clears the console
-		displayInputForm(); // displays initial input form.
-		pauseForKey(); // calls the Pause screen waiting for user input to click ENTER for next screen.
-		clearConsole(); // clears screen again
+		ClearConsole(); // clears the console
+		DisplayInputForm(); // displays initial input form.
+		PauseForKey(); // calls the Pause screen waiting for user input to click ENTER for next screen.
+		ClearConsole(); // clears screen again
 
 		// Read & store user inputs
-		m_account.SetOpenAmount(readPositiveDouble("Enter initial investment amount $: "));
-		m_account.SetDepositAmount( readPositiveDouble("Enter monthly deposit amount $: "));
-		m_account.SetAnnualInterest( readPositiveDouble("Enter annual interest %: "));
-		m_account.SetNumYears( readPositiveInt("Enter number of years you want to invest: "));
+		m_account.SetOpenAmount(ReadPositiveDouble("Enter initial investment amount $: "));
+		m_account.SetDepositAmount( ReadPositiveDouble("Enter monthly deposit amount $: "));
+		m_account.SetAnnualInterest( ReadPositiveDouble("Enter annual interest %: "));
+		m_account.SetNumYears( ReadPositiveInt("Enter number of years you want to invest: "));
 
-		displayConfirmation(); // shows the next screen after user input
-		pauseForKey(); // pause screen waiting for user to click ENTER
-		clearConsole(); //clear screen again
+		DisplayConfirmation(); // shows the next screen after user input
+		PauseForKey(); // pause screen waiting for user to click ENTER
+		ClearConsole(); //clear screen again
 
 		const auto reportNoDeposit = m_account.BuildYearlyReport(false);
 		const auto reportWithDeposit = m_account.BuildYearlyReport(true);
 
-		displayReport(reportNoDeposit, "Balance and Interest Without Additional Monthly Deposits");
-		displayReport(reportWithDeposit, "Balance and Interest With Additional Monthly Deposits");
+		DisplayReport(reportNoDeposit, "Balance and Interest Without Additional Monthly Deposits");
+		DisplayReport(reportWithDeposit, "Balance and Interest With Additional Monthly Deposits");
 
-		if (!askRunAgain())
+		if (!AskRunAgain())
 		{
 			break;
 		}

@@ -11,11 +11,9 @@
 
 
 #include "ConsoleApp.h"
-#include "CompoundInvestment.h"
 
 int main() {
 
-	CompoundInvestment account; // account object created for CompoundInvestment class. Handles getters/setters and math.
 	ConsoleApp app; // app object from ConsoleApp class. The UI & loop logic.
 
 	app.run();
