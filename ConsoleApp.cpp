@@ -33,8 +33,8 @@ double ConsoleApp::ReadPositiveDouble(const std::string& t_prompt) const  //doub
 			return value;
 		}
 		std::cout << "Please enter a positive number.\n";
-		std::cin.clear();
-		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		std::cin.clear(); //clears any error flags
+		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); //clear input buffer
 	}
 }
 
