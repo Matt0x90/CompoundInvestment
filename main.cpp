@@ -1,7 +1,7 @@
 ﻿////////////////////////////////////////////////////////////
 // Project 2
 //
-// Developer : Matthew Hall
+// Developer : Matthew
 // Date		 : 06/07/2025
 // Purpose   : Airgead Banking Application
 // To teach students the concepts of fiscal responsibility via an interactive system.
